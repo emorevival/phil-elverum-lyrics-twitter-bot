@@ -72,8 +72,8 @@ function generateTweetUrl(tweetObj) {
   );
 }
 
-let tweet = postTweet(generateTweetContent(getRandomLyricFromSong(getSong())));
+let tweet = postTweet(generateTweetContent(getRandomLyricFromSong(song)));
 tweet.then(function (res) {
   console.log(res);
-  quoteTweet(generateTweetUrl(res));
+  // quoteTweet(generateTweetUrl(res));
 });
