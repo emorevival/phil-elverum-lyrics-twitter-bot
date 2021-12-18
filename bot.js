@@ -67,7 +67,7 @@ function getRandomLyricFromSong(song) {
 }
 
 function generateTweetContent(lyricArray) {
-  return lyricArray.join('/n');
+  return lyricArray.join('\n');
 }
 
 function generateTweetUrl(tweetObj) {
