@@ -28,10 +28,10 @@ async function postTweet(tweetContent) {
   return tweet;
 }
 
-async function quoteTweet(tweetUrl) {
+async function quoteTweet(tweetUrl, songTitle) {
   let tweet;
   try {
-    tweet = await userClient.v1.tweet(`Song is: ${title}`, {
+    tweet = await userClient.v1.tweet(`Song is: ${songTitle}`, {
       attachment_url: tweetUrl,
     });
   } catch (error) {
@@ -40,7 +40,7 @@ async function quoteTweet(tweetUrl) {
   return tweet;
 }
 
-//@RETURNS RANDOM INTEGER FROM MIN TO MAX
+//@RETURNS RANDOM INTEGER FROM MIN TO MAX (INCLUDING MAX)
 function getRandomNumber(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -57,13 +57,17 @@ function getSong() {
 function getRandomLyricFromSong(song) {
   let lyrics = song.lyrics.replace(regex, "");
   let lyricsArray = lyrics.split("\n");
-  let startIndex = getRandomNumber(0, lyricsArray.length - 3);
+  if (lyricsArray.length === 1) {
+    return lyricsArray[0];
+  }
+
+  let startIndex = getRandomNumber(0, lyricsArray.length - 2);
   let endIndex = startIndex + 2;
   return lyricsArray.slice(startIndex, endIndex);
 }
 
 function generateTweetContent(lyricArray) {
-  return lyricArray[0] + "\n" + lyricArray[1];
+  return lyricArray.join('/n');
 }
 
 function generateTweetUrl(tweetObj) {
@@ -75,5 +79,5 @@ function generateTweetUrl(tweetObj) {
 let tweet = postTweet(generateTweetContent(getRandomLyricFromSong(song)));
 tweet.then(function (res) {
   console.log(res);
-  // quoteTweet(generateTweetUrl(res));
+  // quoteTweet(generateTweetUrl(res), title);
 });
